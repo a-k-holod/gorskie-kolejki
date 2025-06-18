@@ -6,7 +6,7 @@ services:
     volumes:
       - .:/var/www
     env_file:
-      - .env.dev
+      - .env.local
     depends_on:
       - redis
     ports:

@@ -12,9 +12,9 @@ class Redis extends BaseConfig
 
     public function __construct()
     {
-        $this->host = getenv('redis.host') ?: '127.0.0.1';
-        $this->port = (int)(getenv('redis.port') ?: 6379);
-        $this->database = (int)(getenv('redis.database') ?: 0);
-        $this->prefix = getenv('REDIS_PREFIX') ?: '';
+        $this->host = env('REDIS_HOST') ?: '127.0.0.1';
+        $this->port = (int)(env('REDIS_PORT') ?: 6379);
+        $this->database = (int)(env('REDIS_DATABASE') ?: 0);
+        $this->prefix = env('REDIS_PREFIX') ?: '';
     }
 }

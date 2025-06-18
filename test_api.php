@@ -33,7 +33,7 @@ function request(string $method, string $url, ?array $data = null)
         echo "Curl error: $err\n";
     }
 
-    // 🔍 DEBUG: pokaż błąd dekodowania JSON, jeśli wystąpi
+    // DEBUG: pokaż błąd dekodowania JSON, jeśli wystąpi
     $json = json_decode($response, true);
     if (json_last_error() !== JSON_ERROR_NONE) {
         echo "❌ JSON decode error: " . json_last_error_msg() . "\n";
@@ -77,4 +77,45 @@ if ($coasterId) {
     // request('DELETE', "http://localhost:8080/api/coasters/$coasterId/wagons/$wagonId");
 } else {
     echo "Nie udało się stworzyć kolejki.\n";
+}
+
+
+// Test: Update coaster
+$updateData = [
+    'liczba_personelu' => 8,
+    'liczba_klientow'  => 20,
+    'godziny_od'       => '09:00',
+    'godziny_do'       => '19:00',
+];
+
+if ($coasterId) {
+    $responseUpdate = request('PUT', "http://localhost:8080/api/coasters/$coasterId", $updateData);
+
+    // Sprawdź odpowiedź update
+    if (isset($responseUpdate['message'])) {
+        echo "Update coaster: " . $responseUpdate['message'] . "\n";
+    }
+
+    // Pobierz wagony żeby wybrać ID do usunięcia
+    $wagonsResp = request('GET', "http://localhost:8080/api/coasters");
+    $wagonIdToDelete = null;
+
+    foreach ($wagonsResp as $coaster) {
+        if ($coaster['id'] === $coasterId && !empty($coaster['wagons'])) {
+            $wagonIdToDelete = $coaster['wagons'][0]['id'] ?? null;
+            break;
+        }
+    }
+
+    if ($wagonIdToDelete) {
+        // Test: Delete wagon
+        $responseDeleteWagon = request('DELETE', "http://localhost:8080/api/coasters/$coasterId/wagons/$wagonIdToDelete");
+        if (isset($responseDeleteWagon['message'])) {
+            echo "Delete wagon: " . $responseDeleteWagon['message'] . "\n";
+        }
+    } else {
+        echo "Brak wagonów do usunięcia.\n";
+    }
+} else {
+    echo "Nie udało się stworzyć kolejki, więc update/delete wagon nie jest możliwy.\n";
 }

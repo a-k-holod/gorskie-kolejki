@@ -1,11 +1,11 @@
-### Testing
+### Test
 
 1. Stwórz .env.local z przykładowego env i ustaw docelową wartość APP_ENV 
+2. Odpal `docker-compose build` i `docker-compose up -d`
 
-2. Odpal `php test_api.php`
-```
-docker-compose exec app php /var/www/monitor.php
-```
+3. Odpal `php test_api.php` lub uzupełnij bazę poprzez curl 
+
+4. Monitoruj status poprzez `docker-compose exec app php /var/www/monitor.php`
 
 
 # CodeIgniter 4 Application Starter
