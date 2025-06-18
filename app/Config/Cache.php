@@ -115,7 +115,7 @@ class Cache extends BaseConfig
      * @var array<string, int|string|null>
      */
     public array $redis = [
-        'host'     => '127.0.0.1',
+        'host'     => 'redis',
         'password' => null,
         'port'     => 6379,
         'timeout'  => 0,
@@ -159,4 +159,9 @@ class Cache extends BaseConfig
      * @var bool|list<string>
      */
     public $cacheQueryString = false;
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
 }

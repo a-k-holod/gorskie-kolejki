@@ -67,3 +67,14 @@
 #--------------------------------------------------------------------
 
 # logger.threshold = 4
+
+
+CI_ENVIRONMENT = development
+APP_ENV=development
+app.baseURL = 'http://localhost'
+
+redis.host = redis
+redis.port = 6379
+redis.database = 0
+
+REDIS_PREFIX=dev:
